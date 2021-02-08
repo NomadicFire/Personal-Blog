@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tags</title>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav th:replace="_fragments :: menu(3)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small"></nav>
+
+    <!-- Contents -->
+    <div class="m-container m-padded-tb-big animate__animated animate__fadeIn">
+        <div class="ui container">
+            <!--header-->
+            <div class="ui top attached segment">
+                <div class="ui middle aligned two column grid">
+                    <div class="column">
+                        <h2 class="ui teal header">Tags</h2>
+                    </div>
+                    <div class="right aligned column">
+                        <h2 class="ui orange header m-text-thin" th:text="${#arrays.length(tags)}"> 24 </h2> Tags in Total
+                    </div>
+                </div>
+            </div>
+            <div class="ui bottom attached segment m-padded-tb-large m-padded-lr-tiny">
+                <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui basic left pointing large label m-margin-tb-tiny" th:classappend="${tag.id==activeTagId} ? 'teal'" th:each="tag : ${tags}">
+                    <span th:text="${tag.name}">DP</span><div class="detail" th:text="${#arrays.length(tag.blogs)}">18</div>
+                </a>
+            </div>
+
+            <!--content-->
+            <div class="ui top attached teal segment">
+                <div class="ui attached segment">
+                    <div class="ui padded vertical segment m-padded-tb-large m-padded-lr-tiny" th:each="blog : ${page.content}">
+                        <div class="ui middle aligned mobile reversed stackable grid">
+                            <div class="eleven wide column">
+                                <h3 class="ui header"><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">88. Merge Sorted Array</a></h3>
+                                <p class="m-text" th:text="|${blog.description}......|">Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array. <br> <br>The number of elements initialized in nums1 and nums2 are m and n respectively.</p>
+                                <div class="ui grid">
+                                    <div class="row">
+                                        <div class="eleven wide column">
+                                            <div class="ui mini horizontal link list">
+                                                <div class="item">
+                                                    <img src="https://picsum.photos/id/1012/100/100" th:src="@{${blog.user.avatar}}" alt="" class="ui avatar image">
+                                                    <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}">Jingwen Zhang</a></div>
+                                                </div>
+                                                <div class="item">
+                                                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime, 'yyyy-MM-dd')}">1/11/2021</span>
+                                                </div>
+                                                <div class="item">
+                                                    <i class="eye icon"></i><span th:text="${blog.views}">5357</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="right aligned middle aligned five wide column">
+                                            <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.category.name}">More</a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="column">
+                                            <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui basic left pointing label m-padded-mini m-text-thin" th:classappend="${tag.id==activeTagId} ? 'teal'" th:each="tag : ${blog.tags}" th:text="${tag.name}">DFS</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="five wide column">
+                                <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
+                                    <img src="https://picsum.photos/id/1015/800/600" th:src="@{${blog.firstPicture}}" alt="" class="ui rounded image">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--footer-->
+            <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+                <div class="ui middle aligned two column grid">
+                    <div class="column">
+                        <a href="#" th:href="@{/(page=${page.number}-1)}" th:unless="${page.first}" class="ui teal basic button">Previous</a>
+                    </div>
+                    <div class="right aligned column">
+                        <a href="#" th:href="@{/(page=${page.number}+1)}" th:unless="${page.last}" class="ui teal basic button">Next</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <!-- Footer -->
+    <footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive"></footer>
+
+    <!--/*/<th:block th:replace="_fragments :: script">/*/-->
+    <!--/*/</th:block>/*/-->
+
+    <script>
+        $('.menu.toggle').click(function () {
+            $('.m-item').toggleClass('m-mobile-hide');
+        });
+    </script>
+</body>
+</html>
